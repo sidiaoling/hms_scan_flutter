@@ -7,6 +7,8 @@ scanner_view:
     git:
       url: 'https://github.com/sidiaoling/hms_scan_flutter'
       ref: 'master'
+      
+ support dart version：>=2.12.0， support null safe，ios and android
 
 ## Getting Started
 
