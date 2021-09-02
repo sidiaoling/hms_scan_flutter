@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - ScanKitFrameWork (1.0.2.300)
+  - scanner_view (0.0.1):
+    - Flutter
+    - ScanKitFrameWork (~> 1.0.2.300)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - scanner_view (from `.symlinks/plugins/scanner_view/ios`)
+
+SPEC REPOS:
+  trunk:
+    - ScanKitFrameWork
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  scanner_view:
+    :path: ".symlinks/plugins/scanner_view/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  ScanKitFrameWork: 0ad578f3db0ef9b64dd0f533d10d10a52ce93c80
+  scanner_view: aa4ee9bc43c057cde51f598304b38ffdb5c490b0
+
+PODFILE CHECKSUM: 2f36d86e7f9758f51276ce322e0d533262cd49d2
+
+COCOAPODS: 1.10.0
