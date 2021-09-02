@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+use: 
+scanner_view:
+    git:
+      url: 'https://github.com/sidiaoling/hms_scan_flutter'
+      ref: 'master'
+
 ## Getting Started
 
 This project is a starting point for a Flutter
