@@ -7,7 +7,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.huawei.hms.hmsscankit.OnResultCallback
 import com.huawei.hms.hmsscankit.RemoteView
+import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -113,6 +115,19 @@ class ScannerView(
         when (call.method) {
             OPEN_FLASH -> {
                 remoteView?.switchLight()
+            }
+            SCAN_IMG -> {
+                val imgUrl = call.argument<String>("imgPath")
+//                val bitmap = MediaStore.Images.Media.getContentUri(imgUrl)
+                val bitmap = ScanUtil.compressBitmap(Locator.activity!!, imgUrl)
+                // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
+                val options = HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.ALL_SCAN_TYPE).setPhotoMode(true).create()
+                val hmsScans = ScanUtil.decodeWithBitmap(Locator.activity!!, bitmap,options)
+                // Call the decodeWithBitmap method to pass the bitmap.
+//                val result1 = ScanUtil.decodeWithBitmap(this@MainActivity, bitmap, HmsScanAnalyzerOptions.Creator().setHmsScanTypes(0).setPhotoMode(false).create())
+                channel.invokeMethod(ON_NOTIFY_QR_CODE, hmsScans[0].getOriginalValue())
+//                // data是Intent类型，data.getData是待扫描的条码图片Uri。
+//                val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData())
             }
         }
     }

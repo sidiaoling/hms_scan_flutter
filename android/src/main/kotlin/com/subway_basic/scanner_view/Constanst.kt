@@ -8,3 +8,6 @@ const val ON_NOTIFY_QR_CODE="ON_NOTIFY_QR_CODE"
 const val OPEN_FLASH="OPEN_FLASH"
 // 插件名称
 const val PLUGIN_NAME="com.vv.scanner.scanner_view"
+
+/// 图片扫码
+const val SCAN_IMG="SCAN_IMG"

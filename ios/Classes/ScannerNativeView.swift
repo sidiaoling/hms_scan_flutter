@@ -52,11 +52,38 @@ class ScannerNativeView: NSObject, FlutterPlatformView, CustomizedScanDelegate {
             if(call.method == "OPEN_FLASH") {
                 self?.toggleFlash()
             }
+            if(call.method == "SCAN_IMG") {
+                if let args = call.arguments as? Dictionary<String, Any>,
+                    let imgPath = args["imgPath"] as? String {
+                    let img = UIImage(contentsOfFile: imgPath)
+                    let dic = HmsBitMap.bitMap(for: img, with: HmsScanOptions(scanFormatType: 0, photo: true))
+                    self?.parseResult(dic)
+
+                    result(nil)
+                  } else {
+                    result(FlutterError.init(code: "errorSetDebug", message: "data or format error", details: nil))
+                  }
+            }
         }
         
         
         
         createNativeView()
+    }
+    
+    func parseResult(_ dictionary: [AnyHashable : Any]?) {
+        if let dictionary = dictionary, let text = dictionary["text"] {
+            print("*** Text: \(text)")
+            self.nativeMethodsChannel.invokeMethod("ON_NOTIFY_QR_CODE", arguments: text)
+            if let formatValue = dictionary["formatValue"] {
+                print("*** CodeFormat: \(formatValue)")
+            }
+            if let sceneType = dictionary["sceneType"] {
+                print("*** ResultType: \(sceneType)")
+            }
+        } else {
+            print("*** Scanning code not recognized!")
+        }
     }
     
     func toggleFlash() {
@@ -104,12 +131,7 @@ class ScannerNativeView: NSObject, FlutterPlatformView, CustomizedScanDelegate {
     
     func customizedScanDelegate(forResult resultDic: [AnyHashable : Any]!) {
         DispatchQueue.main.async {
-            if let dictionary = resultDic, let text = dictionary["text"] {
-//                print("*** Text: \(text)")
-                self.nativeMethodsChannel.invokeMethod("ON_NOTIFY_QR_CODE", arguments: text)
-            } else {
-                print("*** Scanning code not recognized!")
-            }
+            self.parseResult(resultDic)
             
         }
     }
